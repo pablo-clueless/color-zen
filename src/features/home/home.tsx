@@ -6,7 +6,7 @@ import { cn } from "@/lib"
 export const Home = () => {
 	return (
 		<>
-			<Seo title="Color Zen" />
+			<Seo title="Generate amazing color palettes, gradients, shades and tints" />
 			<Appbar />
 			<main className="container mx-auto">
 				<div className="grid w-full grid-cols-2 gap-4 py-5 lg:py-10">
