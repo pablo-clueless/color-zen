@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Home } from "@/features"
+import { Gradient } from "@/features"
 
 const Page = () => {
-	return <Home />
+	return <Gradient />
 }
 
 export default Page

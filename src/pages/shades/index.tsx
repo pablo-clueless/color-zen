@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Home } from "@/features"
+import { Shades } from "@/features"
 
 const Page = () => {
-	return <Home />
+	return <Shades />
 }
 
 export default Page

@@ -1,0 +1,22 @@
+{
+	"name": "Color Zen",
+	"short_name": "Color Zen",
+	"description": "Generate amazing color palettes, gradients, shades and tints",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "/meta/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/meta/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"screenshots": [{ "src": "/meta/screenshot.png" }],
+	"background_color": "#f0edee",
+	"theme_color": "#ff9f1c",
+	"display": "standalone"
+}

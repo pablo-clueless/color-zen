@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Home } from "@/features"
+import { Palette } from "@/features"
 
 const Page = () => {
-	return <Home />
+	return <Palette />
 }
 
 export default Page

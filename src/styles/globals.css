@@ -1,33 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+	--heading: "Bricolage Grotesque", sans-serif;
+	--body: "Urbanist", sans-serif;
+
+	--primary: #ff9f1c;
+	--secondary: #31572c;
+	--accent: #87a878;
+	--dark-100: #0a090c;
+	--dark-200: #141115;
+	--light-100: #f0edee;
+	--light-200: #f8f1ff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* removes scrollbar Chrome and Edge */
+::-webkit-scrollbar,
+::-ms-scrollbar {
+	width: 0;
+	display: none;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	/* removes scrollbar for Firefox */
+	scrollbar-width: none;
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+	width: 100%;
+	background: var(--light-100);
+	color: var(--dark-200);
+	overflow-x: hidden;
+	user-select: none;
+	transition: colors 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
+	-webkit-transition: colors 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
+	-moz-transition: colors 0.75s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+img {
+	image-rendering: crisp-edges -moz-crisp-edges;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--heading);
+}
+
+a,
+p,
+span,
+button {
+	font-family: var(--body);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.link {
+	position: relative;
+	width: fit-content;
+}
+
+.link::before {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	border-radius: 4px;
+	background: var(--primary);
+	transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+	-moz-transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+	-webkit-transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.link:hover::before {
+		left: 0;
+		right: auto;
+		width: 100%;
+	}
+}
+
+.notched {
+	position: relative;
+	width: fit-content;
+	color: var(--secondary);
+	font-weight: 700;
+}
+
+.notched::before {
+	content: "";
+	position: absolute;
+	top: -4px;
+	left: 0;
+	width: 50%;
+	height: 2px;
+	background: var(--primary);
 }
