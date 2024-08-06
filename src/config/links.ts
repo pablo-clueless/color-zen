@@ -1,15 +1,26 @@
+import {
+	RiCodepenFill,
+	RiGithubFill,
+	RiLinkedinFill,
+	RiTwitterFill,
+} from "@remixicon/react"
+
 export const navLinks = [
 	{
 		href: "/palette",
-		label: "Palette Generator",
+		label: "Palette",
 	},
 	{
 		href: "/shades",
-		label: "Shade Generator",
+		label: "Shade",
 	},
 	{
 		href: "/gradients",
-		label: "Gradient Generator",
+		label: "Gradient",
+	},
+	{
+		href: "/inspirations",
+		label: "Inspirations",
 	},
 ]
 
@@ -17,42 +28,36 @@ export const footerLinks = [
 	{
 		label: "Features",
 		links: [
-			{
-				href: "/palettes",
-				label: "Palette Generator",
-				external: false,
-			},
-			{
-				href: "/shades",
-				label: "Shade Generator",
-				external: false,
-			},
-			{
-				href: "/gradients",
-				label: "Gradient Generator",
-				external: false,
-			},
+			{ href: "/palettes", label: "Palette Generator" },
+			{ href: "/shades", label: "Shade Generator" },
+			{ href: "/gradients", label: "Gradient Generator" },
 		],
 	},
 	{
 		label: "Social",
-		links: [
-			{
-				href: "https://github.com/pablo-clueless",
-				label: "GitHub",
-				external: true,
-			},
-			{
-				href: "https://linkedin.com/in/samson-okunola",
-				label: "LinkedIn",
-				external: true,
-			},
-			{ href: "https://x.com/pablo_clueless", label: "Twitter", external: true },
-			{
-				href: "https://codepen.io/pablo-clueless",
-				label: "Codepen",
-				external: true,
-			},
-		],
+		links: [],
+	},
+]
+
+export const socials = [
+	{
+		href: "https://github.com/pablo-clueless",
+		icon: RiGithubFill,
+		label: "GitHub",
+	},
+	{
+		href: "https://linkedin.com/in/samson-okunola",
+		icon: RiLinkedinFill,
+		label: "LinkedIn",
+	},
+	{
+		href: "https://x.com/pablo_clueless",
+		icon: RiTwitterFill,
+		label: "Twitter",
+	},
+	{
+		href: "https://codepen.io/pablo-clueless",
+		icon: RiCodepenFill,
+		label: "Codepen",
 	},
 ]

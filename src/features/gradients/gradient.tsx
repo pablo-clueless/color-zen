@@ -11,7 +11,7 @@ export const Gradient = () => {
 		<>
 			<Seo title="" />
 			<Appbar />
-			<main className="container mx-auto px-4"></main>
+			<main className="container mx-auto px-4">Gradient {id}</main>
 			<Footer />
 		</>
 	)
