@@ -36,7 +36,6 @@ export const footerLinks = [
 	{
 		label: "Company",
 		links: [
-			{ href: "/pricing", label: "Pricing" },
 			{ href: "/license", label: "License" },
 			{ href: "/terms", label: "Terms of Service" },
 			{ href: "/privacy", label: "Privacy Policy" },
