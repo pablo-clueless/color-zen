@@ -9,8 +9,9 @@ export const Gradients = () => {
 			<Appbar />
 			<main className="container mx-auto px-4">
 				<h1 className="my-8 text-center text-3xl font-bold lg:text-5xl">
-					Color Gradient Generator
+					Gradient Generator
 				</h1>
+				<div className="flex w-full flex-col items-center gap-20 py-5 lg:py-10"></div>
 			</main>
 			<Footer />
 		</>
