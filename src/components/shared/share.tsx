@@ -1,16 +1,20 @@
 import React from "react"
 
+import { export_options } from "@/config"
+
 interface Props {
 	id: string
 }
 
-export const Share = ({}: Props) => {
+export const Share = ({ id }: Props) => {
 	return (
 		<div className="grid w-full grid-cols-3 gap-4">
-			{[...Array(9)].map((_, index) => (
+			{export_options(id).map((option, index) => (
 				<div
 					key={index}
-					className="grid aspect-square w-full place-items-center rounded-md border"></div>
+					className="grid aspect-square w-full place-items-center rounded-md border">
+					<option.icon size={28} />
+				</div>
 			))}
 		</div>
 	)

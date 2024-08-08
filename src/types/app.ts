@@ -6,7 +6,7 @@ export type GradientProps = {
 	colors: string[]
 	positions: number[]
 	rotation: number
-	type: "linear" | "radial"
+	type: "linear" | "radial" | (string & {})
 }
 
 export type PaletteProps = {

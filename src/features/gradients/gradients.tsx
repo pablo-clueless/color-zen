@@ -1,7 +1,9 @@
+import { RiExportLine } from "@remixicon/react"
 import React from "react"
 
-import { generateColor, generateGradient } from "@/lib"
+import { generateColor, generateGradient, generateUid } from "@/lib"
 import { example_gradients } from "@/config"
+import { GradientProps } from "@/types"
 import {
 	Appbar,
 	Button,
@@ -10,14 +12,24 @@ import {
 	Input,
 	Select,
 	Seo,
+	Share,
 	Slider,
 } from "@/components/shared"
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog"
 
-const initialValues = {
+const initialValues: GradientProps = {
 	colors: ["#ff9f1c", "#87a878"],
-	positions: [40, 60],
+	positions: [10, 90],
 	rotation: 90,
 	type: "linear",
+	id: generateUid(),
+	created: "",
 }
 
 export const Gradients = () => {
@@ -35,6 +47,8 @@ export const Gradients = () => {
 			positions,
 			rotation,
 			type: "linear",
+			id: generateUid(),
+			created: new Date().toISOString(),
 		})
 	}
 
@@ -46,14 +60,14 @@ export const Gradients = () => {
 		<>
 			<Seo title="Gradient Generator" />
 			<Appbar />
-			<main className="container mx-auto px-4">
+			<main className="container mx-auto px-4 lg:px-0">
 				<h1 className="my-8 text-center text-3xl font-bold lg:text-5xl">
 					Gradient Generator
 				</h1>
 				<div className="flex w-full flex-col items-center gap-20 py-5 lg:py-10">
 					<div className="grid w-full grid-cols-1 gap-10 lg:grid-cols-2">
 						<div
-							className="aspect-square w-full"
+							className="aspect-square w-full rounded-md"
 							style={{ background: gradient }}></div>
 						<div className="flex aspect-square w-full flex-col gap-5 rounded-md border border-gray-700 px-4 py-8">
 							<Slider
@@ -129,7 +143,23 @@ export const Gradients = () => {
 								<Button onClick={random} variant="outline">
 									Random
 								</Button>
-								<Button>Copy CSS</Button>
+								<div className="flex items-center gap-1">
+									<Button className="flex-1">Copy CSS</Button>
+									<Dialog>
+										<DialogTrigger asChild>
+											<Button className="w-fit">
+												<RiExportLine />
+											</Button>
+										</DialogTrigger>
+										<DialogContent className="aspect-square w-[400px]">
+											<DialogTitle>Export Palette</DialogTitle>
+											<DialogDescription hidden aria-hidden>
+												Export your palette to a file.
+											</DialogDescription>
+											<Share id={gradientValues.id} />
+										</DialogContent>
+									</Dialog>
+								</div>
 							</div>
 						</div>
 					</div>
