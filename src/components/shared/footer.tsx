@@ -6,7 +6,7 @@ import { footerLinks, socials } from "@/config"
 export const Footer = () => {
 	return (
 		<footer className="flex w-screen items-center justify-center bg-dark-100 py-5 text-light-100">
-			<div className="flex w-full max-w-[1200px] flex-col gap-10">
+			<div className="flex w-full max-w-[1200px] flex-col gap-14">
 				<div className="flex w-full flex-wrap items-start gap-10">
 					<div className="flex min-w-[300px] flex-col gap-3 lg:min-w-[500px]">
 						<Link
@@ -45,18 +45,11 @@ export const Footer = () => {
 						))}
 					</div>
 				</div>
-				<div className="flex w-full items-center justify-between text-sm">
+				<div className="flex w-full items-center justify-center text-sm">
 					<p>
-						Color Zen from <b>Okunola Samson</b>. &copy;{new Date().getFullYear()}
+						Color Zen. Built by <b>Okunola Samson</b>. &copy;
+						{new Date().getFullYear()}
 					</p>
-					<div className="flex items-center gap-2">
-						<Link href="/privacy" className="link">
-							privacy
-						</Link>
-						<Link href="/license" className="link">
-							license
-						</Link>
-					</div>
 				</div>
 			</div>
 		</footer>

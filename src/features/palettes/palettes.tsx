@@ -46,7 +46,7 @@ export const Palettes = () => {
 
 	return (
 		<>
-			<Seo title="Color Palette Generator" />
+			<Seo title="Palette Generator" />
 			<Appbar />
 			<main className="container mx-auto">
 				<h1 className="my-8 text-center text-3xl font-bold lg:text-5xl">

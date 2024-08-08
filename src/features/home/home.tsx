@@ -2,7 +2,7 @@ import Link from "next/link"
 import React from "react"
 
 import { Appbar, Button, Footer, Seo } from "@/components/shared"
-import { cn, generateExamplePalette } from "@/lib"
+import { cn, generatePalette } from "@/lib"
 import { useInterval } from "@/hooks"
 
 export const Home = () => {
@@ -29,7 +29,7 @@ export const Home = () => {
 			<main className="container mx-auto">
 				<div className="grid w-full grid-cols-2 gap-4 py-5 lg:py-10">
 					<div className="flex w-full flex-col gap-4">
-						<p className="notched text-sm">CREATE</p>
+						<p className="notched text-sm">CREATED BY OKUNOLA SAMSON</p>
 						<p className="text-2xl text-primary lg:text-4xl">
 							Create the perfect palette or get inspired by thousands of beautiful
 							color schemes.
@@ -62,7 +62,7 @@ export const Home = () => {
 								className="flex h-full w-full transform flex-col gap-4 transition-transform duration-300">
 								{[...Array(20)].map((_, index) => (
 									<div key={index} className="grid h-20 w-full grid-cols-4 rounded">
-										{generateExamplePalette().map((color, index) => (
+										{generatePalette(4).map((color, index) => (
 											<div
 												key={index}
 												className="h-full w-full first:rounded-l last:rounded-r"
