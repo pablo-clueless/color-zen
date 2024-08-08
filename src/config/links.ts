@@ -26,7 +26,7 @@ export const navLinks = [
 
 export const footerLinks = [
 	{
-		label: "Features",
+		label: "Tools",
 		links: [
 			{ href: "/palettes", label: "Palette Generator" },
 			{ href: "/shades", label: "Shade Generator" },
@@ -34,8 +34,14 @@ export const footerLinks = [
 		],
 	},
 	{
-		label: "Social",
-		links: [],
+		label: "Company",
+		links: [
+			{ href: "/pricing", label: "Pricing" },
+			{ href: "/license", label: "License" },
+			{ href: "/terms", label: "Terms of Service" },
+			{ href: "/privacy", label: "Privacy Policy" },
+			{ href: "/cookie", label: "Cookie Policy" },
+		],
 	},
 ]
 

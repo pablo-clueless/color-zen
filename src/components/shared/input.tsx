@@ -7,14 +7,15 @@ export interface InputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: string
 	label?: string
+	wrapper?: string
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-	({ error, className, id, label, name, type, ...props }, ref) => {
+	({ error, className, id, label, name, type, wrapper, ...props }, ref) => {
 		const [showPassword, setShowPassword] = React.useState(false)
 
 		return (
-			<div className="flex w-full flex-col">
+			<div className={cn("flex w-full flex-col", wrapper)}>
 				{label && <label htmlFor={name ?? id}>{label}</label>}
 				<div className="relative w-full">
 					<input

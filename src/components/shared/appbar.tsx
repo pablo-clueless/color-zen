@@ -24,9 +24,9 @@ export const Appbar = () => {
 							{link.label}
 						</Link>
 					))}
-					<Link href="/signin">
-						<Button>Sign in</Button>
-					</Link>
+					<Button>Sign in</Button>
+					{/* <Link href="/signin">
+					</Link> */}
 				</div>
 			</div>
 		</nav>
