@@ -1,1 +1,5 @@
+export * from "./cookies"
 export * from "./home"
+export * from "./license"
+export * from "./privacy"
+export * from "./terms"

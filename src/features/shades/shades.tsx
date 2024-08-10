@@ -26,7 +26,7 @@ export const Shades = () => {
 		<>
 			<Seo title="Shade Generator" />
 			<Appbar />
-			<main className="container mx-auto px-4">
+			<main className="container mx-auto px-4 lg:px-0">
 				<h1 className="my-8 text-center text-3xl font-bold lg:text-5xl">
 					Shade Generator
 				</h1>

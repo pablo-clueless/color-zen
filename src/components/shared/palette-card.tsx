@@ -1,7 +1,6 @@
 import { toast } from "sonner"
 import React from "react"
 import {
-	RiDragMove2Line,
 	RiFileCopyLine,
 	RiHeartLine,
 	RiLockLine,
@@ -27,22 +26,11 @@ interface Props {
 }
 
 export const PaletteCard = ({ color, deleteColor }: Props) => {
-	const [isDragging, setIsDragging] = React.useState(false)
 	const [current, setCurrent] = React.useState(color)
 	const [locked, setLocked] = React.useState(false)
 
 	const { addColor } = useGlobalStore()
 	const { user } = useUserStore()
-
-	const handleMouseDown = (e: React.MouseEvent) => {
-		e.preventDefault()
-		setIsDragging(true)
-	}
-
-	const handleMouseUp = (e: React.MouseEvent) => {
-		e.preventDefault()
-		setIsDragging(false)
-	}
 
 	const save = (value: string) => {
 		if (!user) {
@@ -82,12 +70,6 @@ export const PaletteCard = ({ color, deleteColor }: Props) => {
 						className="rounded p-2 transition-all duration-300 hover:bg-black/20"
 						onClick={() => copy(current)}>
 						<RiFileCopyLine />
-					</button>
-					<button
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						className={`rounded p-2 transition-all duration-300 hover:bg-black/20 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}>
-						<RiDragMove2Line />
 					</button>
 					<button
 						className="rounded p-2 transition-all duration-300 hover:bg-black/20"

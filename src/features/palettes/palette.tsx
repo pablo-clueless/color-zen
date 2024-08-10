@@ -11,7 +11,7 @@ export const Palette = () => {
 		<>
 			<Seo title="" />
 			<Appbar />
-			<main className="container mx-auto px-4">Palette {id}</main>
+			<main className="container mx-auto px-4 lg:px-0">Palette {id}</main>
 			<Footer />
 		</>
 	)
