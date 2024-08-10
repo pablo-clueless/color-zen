@@ -1,5 +1,5 @@
+import { GradientProps, PaletteProps, ShadeProps } from "@/types"
 import { createPersistMiddleware } from "../middleware"
-import { GradientProps, PaletteProps } from "@/types"
 
 interface GlobalStore {
 	colors: string[]
@@ -13,6 +13,10 @@ interface GlobalStore {
 	palettes: PaletteProps[]
 	addPalette: (palette: PaletteProps) => void
 	removePalette: (id: string) => void
+
+	shades: ShadeProps[]
+	addShade: (shade: ShadeProps) => void
+	removeShade: (id: string) => void
 }
 
 const initialState: GlobalStore = {
@@ -27,6 +31,10 @@ const initialState: GlobalStore = {
 	palettes: [],
 	addPalette: () => {},
 	removePalette: () => {},
+
+	shades: [],
+	addShade: () => {},
+	removeShade: () => {},
 }
 
 const useGlobalStore = createPersistMiddleware<GlobalStore>(
@@ -52,6 +60,15 @@ const useGlobalStore = createPersistMiddleware<GlobalStore>(
 		removePalette: (id) => {
 			set((state) => ({
 				palettes: state.palettes.filter((palette) => palette.id !== id),
+			}))
+		},
+		addShade: (shade) =>
+			set((state) => ({
+				shades: [...state.shades, shade],
+			})),
+		removeShade: (id) => {
+			set((state) => ({
+				shades: state.shades.filter((shade) => shade.id !== id),
 			}))
 		},
 	})

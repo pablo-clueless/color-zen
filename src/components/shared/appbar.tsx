@@ -25,7 +25,7 @@ export const Appbar = () => {
 					Color Zen
 				</Link>
 				<Sheet open={open} onOpenChange={() => setOpen(!open)}>
-					<SheetTrigger asChild>
+					<SheetTrigger asChild className="block lg:hidden">
 						<RiMenu3Line />
 					</SheetTrigger>
 					<SheetContent>

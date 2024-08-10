@@ -8,6 +8,7 @@ import {
 	Footer,
 	Seo,
 	ShadeCard,
+	ShadeToolbar,
 } from "@/components/shared"
 
 export const Shades = () => {
@@ -35,7 +36,10 @@ export const Shades = () => {
 						<ColorPicker color={color} onColorChange={(color) => setColor(color)} />
 					</div>
 					<div className="flex w-full flex-col gap-2">
-						<h4 className="text-2xl font-semibold lg:text-3xl">Shades</h4>
+						<div className="flex w-full items-center justify-between">
+							<h4 className="text-2xl font-semibold lg:text-3xl">Shades</h4>
+							<ShadeToolbar color={color} shades={shades} />
+						</div>
 						<p className="text-lg">
 							Shades refers refers to shades of a color as it&apos;s mixed with black.
 						</p>
@@ -46,7 +50,10 @@ export const Shades = () => {
 						</div>
 					</div>
 					<div className="flex w-full flex-col gap-2">
-						<h4 className="text-2xl font-semibold lg:text-3xl">Tints</h4>
+						<div className="flex w-full items-center justify-between">
+							<h4 className="text-2xl font-semibold lg:text-3xl">Tints</h4>
+							<ShadeToolbar color={color} shades={tints} />
+						</div>
 						<p className="text-lg">
 							Tint refers refers to shades of a color as it&apos;s mixed with white.
 						</p>
