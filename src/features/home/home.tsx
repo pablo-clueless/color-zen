@@ -41,7 +41,7 @@ export const Home = () => {
 						))}
 					</div>
 				</div>
-				<div className="bg-creative flex h-[50vh] w-full flex-col justify-start overflow-hidden bg-cover bg-top bg-no-repeat py-5 lg:py-10"></div>
+				<div className="flex h-[50vh] w-full flex-col justify-start overflow-hidden bg-creative bg-cover bg-top bg-no-repeat py-5 lg:py-10"></div>
 			</main>
 			<Footer />
 		</>
