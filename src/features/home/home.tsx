@@ -26,7 +26,7 @@ export const Home = () => {
 							color schemes.
 						</p>
 						<h1 className="text-4xl font-bold lg:text-8xl">Color Zen</h1>
-						<Link href="/palette">
+						<Link href="/palettes">
 							<Button size="lg">Create Palette</Button>
 						</Link>
 					</div>
