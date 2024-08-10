@@ -1,4 +1,5 @@
-import { RiExportLine } from "@remixicon/react"
+import { RiExpandDiagonalLine, RiExportLine } from "@remixicon/react"
+import { toast } from "sonner"
 import React from "react"
 
 import { generateColor, generateGradient, generateUid } from "@/lib"
@@ -7,8 +8,10 @@ import { GradientProps } from "@/types"
 import {
 	Appbar,
 	Button,
+	ColorPicker,
 	Footer,
 	GradientCard,
+	GradientFull,
 	Input,
 	Select,
 	Seo,
@@ -37,6 +40,35 @@ export const Gradients = () => {
 	const { colors, positions, rotation, type } = gradientValues
 	const [gradient, setGradient] = React.useState("")
 	const [current, setCurrent] = React.useState(0)
+	const ref = React.useRef<HTMLDivElement>(null)!
+	const [open, setOpen] = React.useState(false)
+
+	const [fullScreen, setFullScreen] = React.useState<string | null>(null)
+
+	const copy = (value: string) => {
+		navigator.clipboard.writeText(value)
+		toast.success("Copied to clipboard")
+	}
+
+	const handleFullScreen = (gradient: string) => {
+		if (fullScreen) {
+			if (gradient === fullScreen) {
+				setFullScreen(null)
+			} else {
+				setFullScreen(gradient)
+			}
+		} else {
+			setFullScreen(gradient)
+		}
+	}
+
+	const handleClickOutside = (e: MouseEvent) => {
+		if (open) {
+			if (ref.current && !ref.current.contains(e.target as Node)) {
+				setOpen(false)
+			}
+		}
+	}
 
 	const random = () => {
 		const colors = [generateColor(), generateColor()]
@@ -53,11 +85,19 @@ export const Gradients = () => {
 	}
 
 	React.useEffect(() => {
+		document.addEventListener("mousedown", handleClickOutside)
+		return () => document.removeEventListener("mousedown", handleClickOutside)
+	})
+
+	React.useEffect(() => {
 		setGradient(generateGradient(gradientValues))
 	}, [gradientValues])
 
 	return (
 		<>
+			{fullScreen && (
+				<GradientFull gradient={fullScreen} onClose={() => setFullScreen(null)} />
+			)}
 			<Seo title="Gradient Generator" />
 			<Appbar />
 			<main className="container mx-auto px-4 lg:px-0">
@@ -67,10 +107,18 @@ export const Gradients = () => {
 				<div className="flex w-full flex-col items-center gap-20 py-5 lg:py-10">
 					<div className="grid w-full grid-cols-1 gap-10 lg:grid-cols-2">
 						<div
-							className="aspect-square w-full rounded-md"
-							style={{ background: gradient }}></div>
+							className="group relative aspect-square w-full rounded-xl"
+							style={{ background: gradient }}>
+							<button
+								onClick={() => handleFullScreen(gradient)}
+								className="absolute right-4 top-4 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
+								<RiExpandDiagonalLine size={24} />
+							</button>
+						</div>
 						<div className="flex aspect-square w-full flex-col gap-5 rounded-md border border-gray-700 px-4 py-8">
 							<Slider
+								label="Position 1"
+								name="position_1"
 								max={100}
 								min={0}
 								onChange={(position) =>
@@ -83,6 +131,8 @@ export const Gradients = () => {
 								onClick={() => setCurrent(0)}
 							/>
 							<Slider
+								label="Position 2"
+								name="position_2"
 								max={100}
 								min={0}
 								onChange={(position) =>
@@ -94,38 +144,44 @@ export const Gradients = () => {
 								value={positions[1]}
 								onClick={() => setCurrent(1)}
 							/>
+							<Slider
+								label="Rotation"
+								name="rotation"
+								max={360}
+								min={0}
+								onChange={(rotation) =>
+									setGradientValues({
+										...gradientValues,
+										rotation,
+									})
+								}
+								value={rotation}
+								onClick={() => {}}
+							/>
 							<div className="grid w-full grid-cols-2 gap-4">
-								<Input
-									label="Color"
-									value={colors[current]}
-									onChange={(e) => {
-										const newColors = [...colors]
-										newColors[current] = e.target.value
-										setGradientValues({ ...gradientValues, colors: newColors })
-									}}
-									className="font-medium uppercase"
-									readOnly
-								/>
-								<Input
-									label="Position"
-									value={`${positions[current]}%`}
-									className="font-medium"
-									readOnly
-								/>
-							</div>
-							<div className="grid w-full grid-cols-2 gap-4">
-								<Input
-									label="Rotation"
-									value={`${rotation}deg`}
-									onChange={(e) =>
-										setGradientValues({
-											...gradientValues,
-											rotation: Number(e.target.value),
-										})
-									}
-									readOnly
-									className="font-medium"
-								/>
+								<div className="relative w-full">
+									<Input
+										label="Color"
+										defaultValue={colors[current]}
+										onFocus={() => setOpen(true)}
+										className="font-medium uppercase"
+									/>
+									{open && (
+										<div ref={ref} className="absolute left-0 top-16">
+											<ColorPicker
+												color={colors[current]}
+												onColorChange={(color) => {
+													const newColors = [...colors]
+													newColors[current] = color
+													setGradientValues({
+														...gradientValues,
+														colors: newColors,
+													})
+												}}
+											/>
+										</div>
+									)}
+								</div>
 								<Select
 									label="Type"
 									value={type}
@@ -144,7 +200,9 @@ export const Gradients = () => {
 									Random
 								</Button>
 								<div className="flex items-center gap-1">
-									<Button className="flex-1">Copy CSS</Button>
+									<Button className="flex-1" onClick={() => copy(gradient)}>
+										Copy CSS
+									</Button>
 									<Dialog>
 										<DialogTrigger asChild>
 											<Button className="w-fit">
@@ -163,10 +221,13 @@ export const Gradients = () => {
 							</div>
 						</div>
 					</div>
-					<div className="grid w-full grid-cols-3 gap-6">
-						{example_gradients.map((gradient, index) => (
-							<GradientCard key={index} gradient={gradient} />
-						))}
+					<div className="flex w-full flex-col items-center gap-6">
+						<h4 className="text-xl lg:text-2xl">Example Gradients</h4>
+						<div className="grid w-full grid-cols-3 gap-6">
+							{example_gradients.map((gradient, index) => (
+								<GradientCard key={index} gradient={gradient} />
+							))}
+						</div>
 					</div>
 				</div>
 			</main>

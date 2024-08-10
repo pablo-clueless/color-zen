@@ -1,36 +1,27 @@
+import { motion } from "framer-motion"
 import Link from "next/link"
 import React from "react"
 
 import { Appbar, Button, Footer, Seo } from "@/components/shared"
-import { cn, generatePalette } from "@/lib"
+import { generatePalette } from "@/lib"
 import { useInterval } from "@/hooks"
 
 export const Home = () => {
-	const [positionY, setPositionY] = React.useState(0)
-	const ref = React.useRef<HTMLDivElement>(null)!
+	const [palette, setPalette] = React.useState(generatePalette(5))
 
 	useInterval(() => {
-		if (ref.current) {
-			if (
-				ref.current.scrollTop >=
-				ref.current.scrollHeight - ref.current.clientHeight
-			) {
-				setPositionY(0)
-			} else {
-				setPositionY((prev) => prev - 1)
-			}
-		}
-	}, 1000)
+		setPalette(generatePalette(5))
+	}, 5000)
 
 	return (
 		<>
 			<Seo title="Generate amazing color palettes, gradients, shades and tints" />
 			<Appbar />
-			<main className="container mx-auto">
-				<div className="grid w-full grid-cols-2 gap-4 py-5 lg:py-10">
+			<main className="container mx-auto px-4 lg:px-0">
+				<div className="grid w-full grid-cols-1 items-center gap-4 py-10 lg:grid-cols-2 lg:py-40">
 					<div className="flex w-full flex-col gap-4">
 						<p className="notched text-sm">CREATED BY OKUNOLA SAMSON</p>
-						<p className="text-2xl text-primary lg:text-4xl">
+						<p className="text-2xl text-secondary lg:text-4xl">
 							Create the perfect palette or get inspired by thousands of beautiful
 							color schemes.
 						</p>
@@ -39,41 +30,18 @@ export const Home = () => {
 							<Button size="lg">Create Palette</Button>
 						</Link>
 					</div>
-					<div className="grid w-full grid-cols-2 gap-4">
-						{[...Array(4)].map((_, index) => (
-							<div
+					<div className="flex aspect-[3/2] w-full items-center overflow-hidden rounded-2xl shadow-xl">
+						{palette.map((color, index) => (
+							<motion.div
+								initial={{ background: "" }}
+								animate={{ background: color }}
+								transition={{ staggerChildren: 0.4, delay: index * 0.1, type: "tween" }}
 								key={index}
-								className={cn(
-									"aspect-square w-full bg-secondary",
-									index === 0 && "bg-primary",
-									index === 3 && "bg-transparent"
-								)}></div>
+								className="h-full w-full flex-1 transition-all first:rounded-l-xl last:rounded-r-xl"></motion.div>
 						))}
 					</div>
 				</div>
-				<div className="h-[65vh] w-full overflow-hidden py-5 lg:py-10">
-					<div
-						ref={ref}
-						className="grid h-full w-full grid-cols-5 gap-4 overflow-y-scroll">
-						{[...Array(5)].map((_, index) => (
-							<div
-								key={index}
-								style={{ transform: `translateY(${positionY * (index + 1)}px)` }}
-								className="flex h-full w-full transform flex-col gap-4 transition-transform duration-300">
-								{[...Array(20)].map((_, index) => (
-									<div key={index} className="grid h-20 w-full grid-cols-4 rounded">
-										{generatePalette(4).map((color, index) => (
-											<div
-												key={index}
-												className="h-full w-full first:rounded-l last:rounded-r"
-												style={{ backgroundColor: color }}></div>
-										))}
-									</div>
-								))}
-							</div>
-						))}
-					</div>
-				</div>
+				<div className="flex h-[50vh] w-full flex-col justify-start overflow-hidden bg-creative bg-cover bg-top bg-no-repeat py-5 lg:py-10"></div>
 			</main>
 			<Footer />
 		</>

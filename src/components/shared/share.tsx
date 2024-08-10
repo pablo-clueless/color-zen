@@ -13,7 +13,9 @@ export const Share = ({ id }: Props) => {
 				<div
 					key={index}
 					className="grid aspect-square w-full place-items-center rounded-md border">
-					<option.icon size={28} />
+					<button>
+						<option.icon size={28} />
+					</button>
 				</div>
 			))}
 		</div>

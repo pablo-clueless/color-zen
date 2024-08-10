@@ -7,7 +7,7 @@ import {
 
 export const navLinks = [
 	{
-		href: "/palette",
+		href: "/palettes",
 		label: "Palette",
 	},
 	{
@@ -39,7 +39,7 @@ export const footerLinks = [
 			{ href: "/license", label: "License" },
 			{ href: "/terms", label: "Terms of Service" },
 			{ href: "/privacy", label: "Privacy Policy" },
-			{ href: "/cookie", label: "Cookie Policy" },
+			{ href: "/cookies", label: "Cookie Policy" },
 		],
 	},
 ]
