@@ -4,9 +4,9 @@ interface Props {
 	max: number
 	min: number
 	onChange: (value: number) => void
-	onClick: () => void
 	value: number
 	label?: string
+	metric?: string
 	name?: string
 }
 
@@ -14,9 +14,9 @@ export const Slider = ({
 	max,
 	min,
 	onChange,
-	onClick,
 	value,
 	label,
+	metric,
 	name,
 }: Props) => {
 	return (
@@ -27,7 +27,10 @@ export const Slider = ({
 						{label}
 					</label>
 				)}
-				<span className="text-sm font-semibold text-gray-700">{value}</span>
+				<span className="text-sm font-semibold text-gray-700">
+					{value}
+					{metric}
+				</span>
 			</div>
 			<div className="flex w-full">
 				<input
@@ -36,7 +39,6 @@ export const Slider = ({
 					max={max}
 					min={min}
 					onChange={(e) => onChange(Number(e.target.value))}
-					onClick={onClick}
 					value={value}
 					step={1}
 				/>

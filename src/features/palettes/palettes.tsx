@@ -70,7 +70,7 @@ export const Palettes = () => {
 					</div>
 					<div className="flex w-full flex-col items-center gap-6">
 						<h4 className="text-xl lg:text-2xl">Example Palettes</h4>
-						<div className="grid w-full grid-cols-3 gap-6">
+						<div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-3">
 							{example_palettes.map((palette) => (
 								<PaletteUi key={palette.id} palette={palette} />
 							))}

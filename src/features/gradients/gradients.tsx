@@ -38,10 +38,9 @@ const initialValues: GradientProps = {
 export const Gradients = () => {
 	const [gradientValues, setGradientValues] = React.useState(initialValues)
 	const { colors, positions, rotation, type } = gradientValues
+	const [open, setOpen] = React.useState<number | null>(null)
 	const [gradient, setGradient] = React.useState("")
-	const [current, setCurrent] = React.useState(0)
 	const ref = React.useRef<HTMLDivElement>(null)!
-	const [open, setOpen] = React.useState(false)
 
 	const [fullScreen, setFullScreen] = React.useState<string | null>(null)
 
@@ -65,7 +64,7 @@ export const Gradients = () => {
 	const handleClickOutside = (e: MouseEvent) => {
 		if (open) {
 			if (ref.current && !ref.current.contains(e.target as Node)) {
-				setOpen(false)
+				setOpen(null)
 			}
 		}
 	}
@@ -128,7 +127,7 @@ export const Gradients = () => {
 									})
 								}
 								value={positions[0]}
-								onClick={() => setCurrent(0)}
+								metric="%"
 							/>
 							<Slider
 								label="Position 2"
@@ -142,7 +141,7 @@ export const Gradients = () => {
 									})
 								}
 								value={positions[1]}
-								onClick={() => setCurrent(1)}
+								metric="%"
 							/>
 							<Slider
 								label="Rotation"
@@ -156,32 +155,36 @@ export const Gradients = () => {
 									})
 								}
 								value={rotation}
-								onClick={() => {}}
+								metric="°"
 							/>
 							<div className="grid w-full grid-cols-2 gap-4">
-								<div className="relative w-full">
-									<Input
-										label="Color"
-										defaultValue={colors[current]}
-										onFocus={() => setOpen(true)}
-										className="font-medium uppercase"
-									/>
-									{open && (
-										<div ref={ref} className="absolute left-0 top-16">
-											<ColorPicker
-												color={colors[current]}
-												onColorChange={(color) => {
-													const newColors = [...colors]
-													newColors[current] = color
-													setGradientValues({
-														...gradientValues,
-														colors: newColors,
-													})
-												}}
-											/>
-										</div>
-									)}
-								</div>
+								{[...Array(2)].map((_, index) => (
+									<div key={index} className="relative w-full">
+										<Input
+											label={`Color ${index + 1}`}
+											defaultValue={colors[index]}
+											onFocus={() => setOpen(index)}
+											className="font-medium uppercase"
+										/>
+										{open === index && (
+											<div ref={ref} className="absolute left-0 top-16">
+												<ColorPicker
+													color={colors[index]}
+													onColorChange={(color) => {
+														const newColors = [...colors]
+														newColors[index] = color
+														setGradientValues({
+															...gradientValues,
+															colors: newColors,
+														})
+													}}
+												/>
+											</div>
+										)}
+									</div>
+								))}
+							</div>
+							<div className="grid w-full grid-cols-2 gap-4">
 								<Select
 									label="Type"
 									value={type}
@@ -223,7 +226,7 @@ export const Gradients = () => {
 					</div>
 					<div className="flex w-full flex-col items-center gap-6">
 						<h4 className="text-xl lg:text-2xl">Example Gradients</h4>
-						<div className="grid w-full grid-cols-3 gap-6">
+						<div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-3">
 							{example_gradients.map((gradient, index) => (
 								<GradientCard key={index} gradient={gradient} />
 							))}

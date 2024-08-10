@@ -39,7 +39,7 @@ export const Shades = () => {
 						<p className="text-lg">
 							Shades refers refers to shades of a color as it&apos;s mixed with black.
 						</p>
-						<div className="flex w-full items-center">
+						<div className="grid w-full grid-cols-5 items-center lg:grid-cols-10">
 							{shades.map((shade, index) => (
 								<ShadeCard key={index} shade={shade} />
 							))}
@@ -50,7 +50,7 @@ export const Shades = () => {
 						<p className="text-lg">
 							Tint refers refers to shades of a color as it&apos;s mixed with white.
 						</p>
-						<div className="flex w-full items-center">
+						<div className="grid w-full grid-cols-5 items-center lg:grid-cols-10">
 							{tints.map((tint, index) => (
 								<ShadeCard key={index} shade={tint} />
 							))}

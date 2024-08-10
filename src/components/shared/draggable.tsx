@@ -12,7 +12,7 @@ interface DraggableProps
 }
 
 const Draggable = React.forwardRef<HTMLDivElement, DraggableProps>(
-	({ items, className, ref, ...props }) => {
+	({ items, className, ...props }, ref) => {
 		const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
 			e.preventDefault()
 		}
