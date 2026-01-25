@@ -1,54 +1,68 @@
+import { motion } from "framer-motion"
 import Link from "next/link"
 import React from "react"
 
-import { footerLinks, socials } from "@/config"
+import { socials } from "@/config"
 
 export const Footer = () => {
 	return (
-		<footer className="flex w-screen items-center justify-center bg-dark-100 px-4 py-5 text-light-100 lg:px-0">
-			<div className="flex w-full max-w-[1200px] flex-col gap-14">
-				<div className="flex w-full flex-wrap items-start gap-10">
-					<div className="flex min-w-[300px] flex-col gap-3 lg:min-w-[500px]">
-						<Link
-							href="/"
-							className="font-heading text-4xl font-bold text-light-100 lg:text-6xl">
-							Color Zen
-						</Link>
-						<p className="max-w-[300px] text-light-100">
-							Color Zen is a built for developers, designers and artists with the tools
-							to create amazing designs.
-						</p>
-						<div className="flex items-center gap-4">
-							{socials.map((link) => (
-								<a
-									key={link.label}
-									href={link.href}
-									target="_blank"
-									className="text-primary">
-									<link.icon size={20} />
-								</a>
-							))}
+		<footer className="mt-auto border-t border-neutral-200 bg-white">
+			<div className="container mx-auto px-4 py-8 lg:px-0">
+				<div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
+					<div className="flex items-center gap-3">
+						<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+							<span className="font-heading text-sm font-bold text-white">C</span>
 						</div>
+						<span className="font-heading text-lg font-semibold text-secondary">
+							Color Zen
+						</span>
 					</div>
-					<div className="flex flex-1 flex-wrap items-start">
-						{footerLinks.map((item) => (
-							<div key={item.label} className="flex flex-1 flex-col gap-4">
-								<h5 className="text-accent">{item.label}</h5>
-								<div className="flex flex-col gap-2">
-									{item.links.map((link) => (
-										<Link key={link.href} href={link.href} className="link">
-											{link.label}
-										</Link>
-									))}
-								</div>
-							</div>
+
+					<div className="flex items-center gap-6">
+						<Link
+							href="/privacy"
+							className="text-sm text-neutral-500 transition-colors hover:text-secondary">
+							Privacy
+						</Link>
+						<Link
+							href="/terms"
+							className="text-sm text-neutral-500 transition-colors hover:text-secondary">
+							Terms
+						</Link>
+						<Link
+							href="/license"
+							className="text-sm text-neutral-500 transition-colors hover:text-secondary">
+							License
+						</Link>
+					</div>
+
+					<div className="flex items-center gap-3">
+						{socials.map((link) => (
+							<motion.a
+								key={link.label}
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								whileHover={{ scale: 1.1 }}
+								whileTap={{ scale: 0.95 }}
+								className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-colors hover:bg-primary hover:text-white">
+								<link.icon size={18} />
+							</motion.a>
 						))}
 					</div>
 				</div>
-				<div className="flex w-full items-center justify-center text-sm">
-					<p>
-						Color Zen. Built by <b>Okunola Samson</b>. &copy;
-						{new Date().getFullYear()}
+
+				<div className="mt-6 border-t border-neutral-100 pt-6 text-center">
+					<p className="text-sm text-neutral-400">
+						Built by{" "}
+						<a
+							href="https://github.com/pablo-clueless"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-primary hover:underline">
+							Okunola Samson
+						</a>
+						{" "}&copy; {new Date().getFullYear()}
 					</p>
 				</div>
 			</div>

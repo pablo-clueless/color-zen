@@ -1,4 +1,5 @@
-import { RiFileCopyLine } from "@remixicon/react"
+import { RiFileCopyLine, RiCheckLine } from "@remixicon/react"
+import { motion } from "framer-motion"
 import { toast } from "sonner"
 import React from "react"
 
@@ -10,43 +11,85 @@ interface Props {
 
 export const ViewColor = ({ color }: Props) => {
 	const [shades, setShades] = React.useState<string[]>([])
+	const [copiedValue, setCopiedValue] = React.useState<string | null>(null)
 
 	const copy = (value: string) => {
 		navigator.clipboard.writeText(value)
-		toast.success("Copied to clipboard")
+		setCopiedValue(value)
+		toast.success("Copied!")
+		setTimeout(() => setCopiedValue(null), 2000)
 	}
 
 	React.useEffect(() => {
 		setShades(generateShades(color))
 	}, [color])
 
+	const ColorRow = ({
+		label,
+		value,
+		displayValue,
+	}: {
+		label: string
+		value: string
+		displayValue: string
+	}) => (
+		<motion.button
+			whileHover={{ scale: 1.02 }}
+			whileTap={{ scale: 0.98 }}
+			onClick={() => copy(value)}
+			className="flex w-full items-center justify-between rounded-xl border border-neutral-200 p-3 transition-colors hover:border-primary hover:bg-primary/5">
+			<span className="text-sm font-medium text-neutral-500">{label}</span>
+			<div className="flex items-center gap-2">
+				<span className="font-mono text-sm font-semibold text-secondary">
+					{displayValue}
+				</span>
+				{copiedValue === value ? (
+					<RiCheckLine size={16} className="text-emerald-500" />
+				) : (
+					<RiFileCopyLine size={16} className="text-neutral-400" />
+				)}
+			</div>
+		</motion.button>
+	)
+
 	return (
-		<div className="flex h-full w-full flex-col gap-5">
-			<div className="flex w-full flex-col">
-				<p className="text-lg font-semibold">Hex</p>
-				<h5 className="text-xl font-medium uppercase">{color}</h5>
+		<div className="flex w-full flex-col gap-4">
+			{/* Color Preview */}
+			<div
+				className="aspect-video w-full rounded-xl shadow-inner"
+				style={{ backgroundColor: color }}
+			/>
+
+			{/* Color Values */}
+			<div className="space-y-2">
+				<ColorRow label="HEX" value={color} displayValue={color.toUpperCase()} />
+				<ColorRow
+					label="RGB"
+					value={`rgb(${hexToRgb(color).join(", ")})`}
+					displayValue={hexToRgb(color).join(", ")}
+				/>
+				<ColorRow label="HSV" value={hexToHsv(color)} displayValue={hexToHsv(color)} />
 			</div>
-			<div className="flex w-full flex-col">
-				<p className="text-lg font-semibold">RGB</p>
-				<h5 className="text-xl font-medium">{hexToRgb(color).join(", ")}</h5>
-			</div>
-			<div className="flex w-full flex-col">
-				<p className="text-lg font-semibold">HSV</p>
-				<h5 className="text-xl font-medium">{hexToHsv(color)}</h5>
-			</div>
-			<div className="flex w-full flex-col">
-				<p className="text-lg font-semibold">Shades</p>
-				<div className="flex w-full items-center">
-					{shades.map((shade) => (
-						<button
+
+			{/* Shades */}
+			<div>
+				<p className="mb-2 text-sm font-medium text-neutral-500">Shades</p>
+				<div className="flex w-full overflow-hidden rounded-xl">
+					{shades.map((shade, index) => (
+						<motion.button
 							key={shade}
+							whileHover={{ flex: 1.5 }}
 							onClick={() => copy(shade)}
 							style={{ background: shade, color: getContrastColor(shade) }}
-							className="group grid aspect-square w-full flex-1 cursor-pointer place-items-center transition-transform duration-300 hover:scale-110">
-							<span className="opacity-0 transition-opacity group-hover:opacity-100">
-								<RiFileCopyLine size={16} />
+							className="flex aspect-square flex-1 cursor-pointer items-center justify-center transition-all">
+							<span className="text-[10px] font-medium opacity-0 transition-opacity hover:opacity-100">
+								{copiedValue === shade ? (
+									<RiCheckLine size={14} />
+								) : (
+									<RiFileCopyLine size={14} />
+								)}
 							</span>
-						</button>
+						</motion.button>
 					))}
 				</div>
 			</div>

@@ -1,62 +1,93 @@
-import { RiHeartLine, RiMoreLine } from "@remixicon/react"
+import { RiHeartLine, RiHeartFill, RiFileCopyLine } from "@remixicon/react"
+import { motion } from "framer-motion"
 import { toast } from "sonner"
 import React from "react"
 
 import { useGlobalStore, useUserStore } from "@/store/z-store"
 import { getContrastColor } from "@/lib"
 import { PaletteProps } from "@/types"
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover"
 
 interface Props {
 	palette: PaletteProps
 }
 
 export const PaletteUi = ({ palette }: Props) => {
+	const [saved, setSaved] = React.useState(false)
 	const { addPalette } = useGlobalStore()
 	const { user } = useUserStore()
 
 	const save = (value: PaletteProps) => {
 		if (!user) {
-			toast.error("You must be logged in to save palettes!")
+			toast.error("Sign in to save palettes")
 			return
 		}
 		addPalette(value)
+		setSaved(true)
+		toast.success("Palette saved")
+		setTimeout(() => setSaved(false), 2000)
+	}
+
+	const copyColor = (color: string) => {
+		navigator.clipboard.writeText(color)
+		toast.success("Copied!")
+	}
+
+	const copyAllColors = () => {
+		navigator.clipboard.writeText(palette.palette.join(", "))
+		toast.success("All colors copied!")
 	}
 
 	return (
-		<div className="flex w-full flex-col gap-2">
-			<div className="flex aspect-[5/2] w-full items-center rounded-xl shadow-xl">
+		<motion.div
+			whileHover={{ y: -4 }}
+			transition={{ duration: 0.2 }}
+			className="group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-lg">
+			<div className="flex aspect-[3/1] w-full">
 				{palette.palette.map((color, index) => (
-					<div
+					<motion.div
 						key={index}
-						className="group grid h-full flex-1 cursor-pointer place-items-center transition-transform first:rounded-l-xl last:rounded-r-xl hover:-translate-y-1"
+						whileHover={{ flex: 1.5 }}
+						transition={{ duration: 0.2 }}
+						onClick={() => copyColor(color)}
+						className="relative flex h-full flex-1 cursor-pointer items-center justify-center"
 						style={{ background: color, color: getContrastColor(color) }}>
-						<span className="text-xs font-medium opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+						<span className="font-mono text-xs font-semibold uppercase opacity-0 transition-opacity duration-200 group-hover:opacity-100">
 							{color}
 						</span>
-					</div>
+					</motion.div>
 				))}
 			</div>
-			<div className="flex w-full items-center justify-between">
-				<h5 className="text-sm">{palette.name}</h5>
-				<div className="flex items-center gap-3">
-					<button onClick={() => save(palette)}>
-						<RiHeartLine size={16} />
-					</button>
-					<Popover>
-						<PopoverTrigger asChild>
-							<button>
-								<RiMoreLine size={16} />
-							</button>
-						</PopoverTrigger>
-						<PopoverContent className="max-w-[200px]"></PopoverContent>
-					</Popover>
+
+			<div className="flex items-center justify-between p-4">
+				<div>
+					<h5 className="font-semibold text-secondary">{palette.name}</h5>
+					<p className="text-xs text-neutral-400">
+						{palette.palette.length} colors
+					</p>
+				</div>
+
+				<div className="flex items-center gap-1">
+					<motion.button
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.9 }}
+						onClick={copyAllColors}
+						className="flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-secondary">
+						<RiFileCopyLine size={16} />
+					</motion.button>
+
+					<motion.button
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.9 }}
+						onClick={() => save(palette)}
+						className="flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-red-500">
+						{saved ? (
+							<RiHeartFill size={16} className="text-red-500" />
+						) : (
+							<RiHeartLine size={16} />
+						)}
+					</motion.button>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
