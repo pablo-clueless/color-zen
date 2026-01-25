@@ -75,7 +75,7 @@ export const ViewColor = ({ color }: Props) => {
 			<div>
 				<p className="mb-2 text-sm font-medium text-neutral-500">Shades</p>
 				<div className="flex w-full overflow-hidden rounded-xl">
-					{shades.map((shade, index) => (
+					{shades.map((shade) => (
 						<motion.button
 							key={shade}
 							whileHover={{ flex: 1.5 }}

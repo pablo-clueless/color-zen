@@ -7,11 +7,10 @@ import { getContrastColor } from "@/lib"
 
 interface Props {
 	shade: string
-	index?: number
 	label?: string
 }
 
-export const ShadeCard = ({ shade, index = 0, label }: Props) => {
+export const ShadeCard = ({ shade, label }: Props) => {
 	const [copied, setCopied] = React.useState(false)
 	const contrastColor = getContrastColor(shade)
 

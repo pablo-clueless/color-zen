@@ -1,5 +1,5 @@
 import { RiSparklingLine, RiKeyboardBoxLine } from "@remixicon/react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { toast } from "sonner"
 import React from "react"
 
@@ -15,25 +15,42 @@ import {
 	Seo,
 } from "@/components/shared"
 
+interface ColorItem {
+	color: string
+	locked: boolean
+	id: string
+}
+
 export const Palettes = () => {
-	const [palette, setPalette] = React.useState<string[]>([])
-	const [count, setCount] = React.useState(5)
+	const [colors, setColors] = React.useState<ColorItem[]>([])
 	const [isGenerating, setIsGenerating] = React.useState(false)
 
-	const deleteColor = (color: string) => {
-		if (count > 3) {
-			setPalette(palette.filter((c) => c !== color))
-			setCount(count - 1)
+	const deleteColor = (id: string) => {
+		if (colors.length > 3) {
+			setColors(colors.filter((c) => c.id !== id))
 		} else {
 			toast.error("Minimum 3 colors required")
 		}
 	}
 
+	const toggleLock = (id: string) => {
+		setColors(
+			colors.map((c) =>
+				c.id === id ? { ...c, locked: !c.locked } : c
+			)
+		)
+		const item = colors.find((c) => c.id === id)
+		toast.success(item?.locked ? "Color unlocked" : "Color locked")
+	}
+
 	const increment = () => {
-		if (count < 10) {
-			setCount(count + 1)
-			const color = generateColor()
-			setPalette((prev) => [...prev, color])
+		if (colors.length < 10) {
+			const newColor: ColorItem = {
+				color: generateColor(),
+				locked: false,
+				id: crypto.randomUUID(),
+			}
+			setColors([...colors, newColor])
 		} else {
 			toast.error("Maximum 10 colors allowed")
 		}
@@ -42,16 +59,30 @@ export const Palettes = () => {
 	const handleGenerate = React.useCallback(() => {
 		setIsGenerating(true)
 		setTimeout(() => {
-			const newPalette = generatePalette(count)
-			setPalette(newPalette)
+			setColors((prev) =>
+				prev.map((item) =>
+					item.locked
+						? item
+						: { ...item, color: generateColor() }
+				)
+			)
 			setIsGenerating(false)
 		}, 150)
-	}, [count])
+	}, [])
+
+	const initPalette = React.useCallback(() => {
+		const initialColors = generatePalette(5).map((color) => ({
+			color,
+			locked: false,
+			id: crypto.randomUUID(),
+		}))
+		setColors(initialColors)
+	}, [])
 
 	// Keyboard shortcut
 	React.useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.code === "Space" && !e.ctrlKey && !e.metaKey) {
+			if (e.code === "Space" && !e.ctrlKey && !e.metaKey && e.target === document.body) {
 				e.preventDefault()
 				handleGenerate()
 			}
@@ -61,9 +92,10 @@ export const Palettes = () => {
 	}, [handleGenerate])
 
 	React.useEffect(() => {
-		handleGenerate()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+		initPalette()
+	}, [initPalette])
+
+	const paletteColors = colors.map((c) => c.color)
 
 	return (
 		<>
@@ -104,7 +136,7 @@ export const Palettes = () => {
 								</kbd>
 							</div>
 						</div>
-						<PaletteToolbar increment={increment} palette={palette} />
+						<PaletteToolbar increment={increment} palette={paletteColors} />
 					</motion.div>
 
 					{/* Palette Display */}
@@ -114,23 +146,17 @@ export const Palettes = () => {
 						transition={{ duration: 0.5, delay: 0.2 }}
 						className="overflow-hidden rounded-2xl shadow-2xl">
 						<div className="flex h-[60vh] min-h-[400px] w-full lg:h-[65vh]">
-							<AnimatePresence mode="popLayout">
-								{palette.map((color, index) => (
-									<motion.div
-										key={`${color}-${index}`}
-										initial={{ opacity: 0, scale: 0.9 }}
-										animate={{ opacity: 1, scale: 1 }}
-										exit={{ opacity: 0, scale: 0.9 }}
-										transition={{ duration: 0.3, delay: index * 0.05 }}
-										className="h-full flex-1">
-										<PaletteCard
-											color={color}
-											deleteColor={deleteColor}
-											index={index}
-										/>
-									</motion.div>
-								))}
-							</AnimatePresence>
+							{colors.map((item, index) => (
+								<div key={item.id} className="h-full flex-1">
+									<PaletteCard
+										color={item.color}
+										locked={item.locked}
+										onToggleLock={() => toggleLock(item.id)}
+										deleteColor={() => deleteColor(item.id)}
+										index={index}
+									/>
+								</div>
+							))}
 						</div>
 					</motion.div>
 
