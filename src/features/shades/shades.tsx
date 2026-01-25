@@ -95,7 +95,6 @@ export const Shades = () => {
 											}}>
 											<ShadeCard
 												shade={shade}
-												index={index}
 												label={`${100 - index * 10}%`}
 											/>
 										</motion.div>
@@ -136,7 +135,6 @@ export const Shades = () => {
 											}}>
 											<ShadeCard
 												shade={tint}
-												index={index}
 												label={`${100 - index * 10}%`}
 											/>
 										</motion.div>
